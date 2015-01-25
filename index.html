@@ -24,19 +24,30 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	loadImages(j_imgs,function(imgs){
 		
-		for(var i = 0; i < 30; i++){
-			var oF = new Fish(imgs.fish1, 55, 37, 0, 4);
+		// for(var i = 0; i < 30; i++){
+		// 	var oF = new Fish(imgs.fish1, 55, 37, 0, 4);
+		// 	aFish.push(oF);			
+		// }
+		var fishes = [
+			{img:imgs.fish1, w: 55, h: 37},
+			{img:imgs.fish2, w: 78, h: 64},
+			{img:imgs.fish3, w: 72, h: 56},
+			{img:imgs.fish4, w: 77, h: 59},
+			{img:imgs.fish5, w: 107, h: 122}
+		]
+		function next(){
+			setTimeout(function(){
+				var fish = fishes[Math.floor(Math.random()*fishes.length)];
 
-			aFish.push(oF);
+				var oF = new Fish(fish.img, fish.w, fish.h, 0, 4);
 
-			
+				aFish.push(oF);
+
+				next();
+			},Math.random()*500);
 		}
-		
-		// var f2 = new Fish(imgs.fish2, 78, 64, 0, 4);
 
-		// aFish.push(f1);
-		// aFish.push(f2);
-
+		next();
 		//绘制
 		setInterval(function(){
 			gd.clearRect(0, 0, c1.width, c1.height);
