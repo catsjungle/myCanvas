@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<style>
+	body{text-align: center;background-color: #000;}
+	#c1{background-color: #fff;}
+</style>
+<script src="js/fish.js"></script>
+<script src="js/common.js"></script>
+<script>
+	
+	var j_imgs = [
+		'fish1.png', //55*37
+		'fish2.png', //78*64
+		'fish3.png', //72*56
+		'fish4.png', //77*49
+		'fish5.png'  //107*122
+	];
+
+	function loadImages(arr, fn, fnError){
+		var count = 0;
+		var json = {};
+
+		for(var i=0;i<arr.length;i++){
+			var oImg = new Image();
+			(function(index){
+				oImg.onload = function(){
+					var name = arr[index].split('.')[0];
+					json[name] = this;
+					count ++ ;
+					if(count === arr.length){
+						fn(json);
+					}
+
+					oImg.onerror = function(){
+						fnError && fnError();
+					};
+				}
+				
+			})(i);
+			oImg.src='images/'+arr[i];
+		}
+	}
+	window.onload = function(){
+
+		var c1 = document.getElementById('c1');
+		var gd = c1.getContext('2d');
+
+		loadImages(j_imgs,function(imgs){
+
+			var f1 = new Fish(imgs.fish1, 55, 37, 0, 4);
+			var f2 = new Fish(imgs.fish2, 78, 64, 0, 4)
+
+			f1.x = 0;
+			f1.y = 50;
+
+			//绘制
+			setInterval(function(){
+				gd.clearRect(0, 0, c1.width, c1.height);
+
+
+				f1.move();
+				f1.draw(gd);
+				
+				f2.move();
+				f2.draw(gd);
+				
+			},16);
+			//移动 换帧
+			setInterval(function(){
+				f1.nextFrame();
+				f2.nextFrame();
+			},150);
+		}, function(){
+			alert('加载失败，请刷新重试')
+		});
+
+		
+
+		
+	};
+	
+	
+
+
+	
+
+
+	
+</script>
+</head>
+<body>
+   <canvas id="c1" width="800" height="600"></canvas>
+</body>
+</html>
