@@ -19,33 +19,38 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	var c1 = document.getElementById('c1');
 	var gd = c1.getContext('2d');
-
+	var aFish = [];
+	
 	loadImages(j_imgs,function(imgs){
+		
 
 		var f1 = new Fish(imgs.fish1, 55, 37, 0, 4);
-		var f2 = new Fish(imgs.fish2, 78, 64, 0, 4)
+		var f2 = new Fish(imgs.fish2, 78, 64, 0, 4);
+
+		aFish.push(f1);
+		aFish.push(f2);
 
 		//绘制
 		setInterval(function(){
 			gd.clearRect(0, 0, c1.width, c1.height);
 
-
-			f1.move();
-			f1.draw(gd);
+			for(var i = 0;i<aFish.length;i++){
+				aFish[i].move();
+				aFish[i].draw(gd);
+			}
 			
-			f2.move();
-			f2.draw(gd);
 			
 		},16);
 		//移动 换帧
 		setInterval(function(){
-			f1.nextFrame();
-			f2.nextFrame();
+			for(var i=0;i<aFish.length;i++){
+				aFish[i].nextFrame();
+			}
 		},150);
-	}, function(){
+	},  function(){
 		alert('加载失败，请刷新重试')
 	});
-	}, false);
+}, false);
 	
 </script>
 </head>
