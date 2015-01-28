@@ -14,6 +14,7 @@
 <script src="js/resource.js"></script>
 <script src="js/common.js"></script>
 <script src="js/fish.js"></script>
+<script src="js/cannon.js">	</script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -28,6 +29,22 @@ document.addEventListener('DOMContentLoaded', function(){
 		// 	var oF = new Fish(imgs.fish1, 55, 37, 0, 4);
 		// 	aFish.push(oF);			
 		// }
+		var cannon = new Cannon(imgs.cannon1, 74, 74);
+		document.onclick = function(ev){
+			var x1 = ev.pageX - c1.offsetLeft;
+			var y1 = ev.pageY - c1.offsetTop;
+
+			var x2 = cannon.x ;
+			var y2 = cannon.y ;
+
+			var y = y1 - y2;
+			var x = x1 - x2;
+			cannon.rotate = a2d(Math.atan2(y, x))+90;
+
+			// console.log(a2d(cannon.rotate));
+		};
+		
+		
 		var fishes = [
 			{img:imgs.fish1, w: 55, h: 37},
 			{img:imgs.fish2, w: 78, h: 64},
@@ -48,7 +65,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		}
 
 		next();
-		//绘制
+
+		// 移动、绘制
 		setInterval(function(){
 			gd.clearRect(0, 0, c1.width, c1.height);
 
@@ -56,10 +74,13 @@ document.addEventListener('DOMContentLoaded', function(){
 				aFish[i].move();
 				aFish[i].draw(gd);
 			}
+					
 			
-			
+			gd.drawImage(imgs.bottom, 0, 0, 765, 71, 15, 529, 765, 71);
+
+			cannon.draw(gd);
 		},16);
-		//移动 换帧
+		// 换帧
 		setInterval(function(){
 			for(var i=0;i<aFish.length;i++){
 				aFish[i].nextFrame();
