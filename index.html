@@ -74,6 +74,11 @@ document.addEventListener('DOMContentLoaded', function(){
 			gd.clearRect(0, 0, c1.width, c1.height);
 
 			for(var i=0;i<aFish.length;i++){
+
+				if(isNotInScreen(W, H, aFish[i], 100)){
+					aFish.splice(i--, 1);
+					continue;
+				}
 				aFish[i].move();
 				aFish[i].draw(gd);
 			}
@@ -83,11 +88,30 @@ document.addEventListener('DOMContentLoaded', function(){
 			gd.drawImage(imgs.bottom, 0, 0, 765, 71, 15, 529, 765, 71);
 
 			for(var i=0;i<aBullet.length;i++){
+				if(isNotInScreen(W, H, aBullet[i], 100)){
+					aBullet.splice(i--, 1);
+					continue;
+				}
 				aBullet[i].move();
 				aBullet[i].draw(gd);
 			}
 			cannon.draw(gd);
 
+
+			for(var i =0;i<aFish.length;i++){
+				for(var j=0;j<aBullet.length;j++){
+					if(testCircle(aFish[i], aBullet[j])){
+						aBullet.splice(j--, 1);
+						aFish.splice(i--, 1);
+						console.log('捕到');
+						break;
+					}
+
+					
+				}
+			}
+			console.log('aFish:'+aFish.length)
+			console.log('aBullet:'+aBullet.length)
 			
 		},16);
 		// 换帧
