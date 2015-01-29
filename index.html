@@ -15,22 +15,21 @@
 <script src="js/common.js"></script>
 <script src="js/fish.js"></script>
 <script src="js/cannon.js">	</script>
+<script src="js/bullet.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
 	var c1 = document.getElementById('c1');
 	var gd = c1.getContext('2d');
 	var aFish = [];
+	var aBullet = [];
 	var W = c1.width, H = c1.height;
 
 	loadImages(j_imgs,function(imgs){
 		
-		// for(var i = 0; i < 30; i++){
-		// 	var oF = new Fish(imgs.fish1, 55, 37, 0, 4);
-		// 	aFish.push(oF);			
-		// }
+		
 		var cannon = new Cannon(imgs.cannon1, 74, 74);
-		document.onclick = function(ev){
+		document.addEventListener('click', function(ev){
 			var x1 = ev.pageX - c1.offsetLeft;
 			var y1 = ev.pageY - c1.offsetTop;
 
@@ -41,8 +40,12 @@ document.addEventListener('DOMContentLoaded', function(){
 			var x = x1 - x2;
 			cannon.rotate = a2d(Math.atan2(y, x))+90;
 
+			var oB = new Bullet(imgs.bullet, 24, 26);
+			oB.rotate = cannon.rotate;
+			aBullet.push(oB);
+
 			// console.log(a2d(cannon.rotate));
-		};
+		},false);
 		
 		
 		var fishes = [
@@ -76,9 +79,16 @@ document.addEventListener('DOMContentLoaded', function(){
 			}
 					
 			
+			
 			gd.drawImage(imgs.bottom, 0, 0, 765, 71, 15, 529, 765, 71);
 
+			for(var i=0;i<aBullet.length;i++){
+				aBullet[i].move();
+				aBullet[i].draw(gd);
+			}
 			cannon.draw(gd);
+
+			
 		},16);
 		// 换帧
 		setInterval(function(){
