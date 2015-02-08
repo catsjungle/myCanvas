@@ -16,6 +16,7 @@
 <script src="js/fish.js"></script>
 <script src="js/cannon.js">	</script>
 <script src="js/bullet.js"></script>
+<script src="js/coin.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	var gd = c1.getContext('2d');
 	var aFish = [];
 	var aBullet = [];
+	var aCoin = [];
 	var W = c1.width, H = c1.height;
 
 	loadImages(j_imgs,function(imgs){
@@ -54,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			{img:imgs.fish3, w: 72, h: 56},
 			{img:imgs.fish4, w: 77, h: 59},
 			{img:imgs.fish5, w: 107, h: 122}
-		]
+		];
 		function next(){
 			setTimeout(function(){
 				var fish = fishes[Math.floor(Math.random()*fishes.length)];
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		// 移动、绘制
 		setInterval(function(){
 			gd.clearRect(0, 0, c1.width, c1.height);
-
+			// 鱼
 			for(var i=0;i<aFish.length;i++){
 
 				if(isNotInScreen(W, H, aFish[i], 100)){
@@ -82,11 +84,17 @@ document.addEventListener('DOMContentLoaded', function(){
 				aFish[i].move();
 				aFish[i].draw(gd);
 			}
-					
+
+			// 金币
+			for(var i=0;i<aCoin.length;i++){
+				aCoin[i].move();
+				aCoin[i].draw(gd);
+			}		
 			
-			
+			// 底图
 			gd.drawImage(imgs.bottom, 0, 0, 765, 71, 15, 529, 765, 71);
 
+			// 炮弹
 			for(var i=0;i<aBullet.length;i++){
 				if(isNotInScreen(W, H, aBullet[i], 100)){
 					aBullet.splice(i--, 1);
@@ -95,30 +103,40 @@ document.addEventListener('DOMContentLoaded', function(){
 				aBullet[i].move();
 				aBullet[i].draw(gd);
 			}
+			// 大炮
 			cannon.draw(gd);
 
 
 			for(var i =0;i<aFish.length;i++){
 				for(var j=0;j<aBullet.length;j++){
 					if(testCircle(aFish[i], aBullet[j])){
+						var coin = new Coin(imgs.coinAni2, 60, 60, aFish[i].x, aFish[i].y, 80, 550, 10);
+						aCoin.push(coin);						
+
 						aBullet.splice(j--, 1);
 						aFish.splice(i--, 1);
 						console.log('捕到');
 						break;
 					}
-
-					
 				}
 			}
+
 			console.log('aFish:'+aFish.length)
 			console.log('aBullet:'+aBullet.length)
+			console.log('aCoin:'+aCoin.length)
 			
 		},16);
 		// 换帧
 		setInterval(function(){
+			// 鱼
 			for(var i=0;i<aFish.length;i++){
 				aFish[i].nextFrame();
 			}
+			// 金币
+			for(var i=0; i<aCoin.length; i++){
+				aCoin[i].nextFrame();
+			}
+			
 		},150);
 	},  function(){
 		alert('加载失败，请刷新重试')
