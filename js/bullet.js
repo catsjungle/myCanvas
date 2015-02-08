@@ -5,7 +5,7 @@
  * @version $Id$
  */
 
-function Bullet(img, w, h){
+function Bullet(img, sx, sy, w, h){
 	this.img = img;
 
 	this.w = w;
@@ -13,6 +13,9 @@ function Bullet(img, w, h){
 
 	this.x = 442 ;
 	this.y = 600 - 30;
+
+	this.sx = sx;
+	this.sy = sy;
 
 	this.rotate = 0;
 	this.speed = 6;
@@ -24,7 +27,7 @@ Bullet.prototype.draw = function(gd){
 	gd.translate(this.x, this.y)
 	gd.rotate(d2a(this.rotate));
 
-	gd.drawImage(this.img, 86, 0, this.w, this.h, -this.w/2, -this.h/2, this.w, this.h);
+	gd.drawImage(this.img, this.sx, this.sy, this.w, this.h, -this.w/2, -this.h/2, this.w, this.h);
 	gd.restore();
 };
 
