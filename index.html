@@ -17,6 +17,7 @@
 <script src="js/cannon.js">	</script>
 <script src="js/bullet.js"></script>
 <script src="js/coin.js"></script>
+<script src="js/Web.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
 
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	var aFish = [];
 	var aBullet = [];
 	var aCoin = [];
+	var aWeb = [];
 	var W = c1.width, H = c1.height;
 
 	loadImages(j_imgs,function(imgs){
@@ -84,7 +86,15 @@ document.addEventListener('DOMContentLoaded', function(){
 				aFish[i].move();
 				aFish[i].draw(gd);
 			}
+			// 渔网
+			for(var i = 0; i<aWeb.length;i++){
+				aWeb[i].scale+=0.03;
+				aWeb[i].draw(gd);
 
+				if(aWeb[i].scale>=1.2){
+					aWeb.splice(i--, 1);
+				}
+			}
 			// 金币
 			for(var i=0;i<aCoin.length;i++){
 				aCoin[i].move();
@@ -110,8 +120,13 @@ document.addEventListener('DOMContentLoaded', function(){
 			for(var i =0;i<aFish.length;i++){
 				for(var j=0;j<aBullet.length;j++){
 					if(testCircle(aFish[i], aBullet[j])){
+
+						var web = new Web(imgs.web, 112, 112, aBullet[j].x, aBullet[j].y, 323, 360);		
+						aWeb.push(web);
+
 						var coin = new Coin(imgs.coinAni2, 60, 60, aFish[i].x, aFish[i].y, 80, 550, 10);
-						aCoin.push(coin);						
+						aCoin.push(coin);	
+
 
 						aBullet.splice(j--, 1);
 						aFish.splice(i--, 1);

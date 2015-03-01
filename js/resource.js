@@ -21,6 +21,7 @@ var j_imgs = [
 					//
 					//
 	'bottom.png',   //765*71
-	'coinAni2.png'
+	'coinAni2.png',
+	'web.png'
 
 ];
