@@ -22,6 +22,7 @@ var j_imgs = [
 					//
 	'bottom.png',   //765*71
 	'coinAni2.png',
-	'web.png'
+	'web.png',
+	'game_bg_2_hd.jpg'
 
 ];

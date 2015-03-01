@@ -30,13 +30,13 @@ function Fish(img, w, h, nowFrame, maxFrame){
 }
 Fish.prototype.draw = function(gd){
 	gd.save();
-	gd.translate(this.x+this.w/2, this.y+this.h/2);
+	gd.translate(this.x, this.y);
 	gd.rotate(d2a(this.rotate));
 
 	if(Math.abs(this.rotate)>=90){
 		gd.scale(1,-1);
 	}
-	gd.drawImage(this.img, 0, this.h*this.nowFrame, this.w, this.h, -this.w, -this.h, this.w, this.h);
+	gd.drawImage(this.img, 0, this.h*this.nowFrame, this.w, this.h, -this.w/2, -this.h/2, this.w, this.h);
 
 	gd.restore();
 	// console.log('draw')
